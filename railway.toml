@@ -1,37 +1,35 @@
-# Railway Configuration for TaskForge
-# This file tells Railway how to deploy the monorepo
+# Railway monorepo configuration
+# Defines both backend and frontend services
 
-[build]
-# Backend service builder
-[build.context="backend"]
-builder = "nixpacks"
-buildCommand = "npm ci --only=production"
+[services.backend]
+  # Backend service configuration
+  [services.backend.build]
+    builder = "nixpacks"
+    buildCommand = "npm ci --only=production"
+  
+  [services.backend.deploy]
+    startCommand = "node src/server.js"
+    healthcheckPath = "/api/health"
+    healthcheckTimeout = 100
+  
+  [services.backend.environment]
+    NODE_ENV = "production"
+    JWT_SECRET = "5eb17bf3"  # REPLACE WITH YOUR GENERATED SECRET
+    FRONTEND_URL = "https://taskforge-frontend.up.railway.app"
+    # MONGODB_URI comes from MongoDB plugin automatically
 
-# Frontend service builder
-[build.context="."]
-builder = "nixpacks"
-buildCommand = "npm ci && npm run build"
-
-[deploy]
-# Backend deployment
-[deploy.path="backend"]
-startCommand = "node src/server.js"
-healthcheckPath = "/api/health"
-healthcheckTimeout = 100
-
-# Frontend deployment
-[deploy.path="."]
-startCommand = "npx serve dist -p $PORT"
-healthcheckPath = "/"
-healthcheckTimeout = 100
-
-[env]
-# Backend environment variables (configure in Railway dashboard)
-# MONGODB_URI - Railway MongoDB addon will provide this automatically
-# JWT_SECRET - Generate a secure random string
-# NODE_ENV=production
-# PORT=3000 (Railway sets this automatically)
-
-# Frontend environment variables (configure in Railway dashboard)
-# VITE_API_URL - Your backend URL (e.g., https://taskforge-backend.up.railway.app)
-# VITE_USE_MOCK=false
+[services.frontend]
+  # Frontend service configuration
+  [services.frontend.build]
+    builder = "nixpacks"
+    buildCommand = "npm ci && npm run build"
+  
+  [services.frontend.deploy]
+    startCommand = "npx serve dist -p $PORT"
+    publishDirectory = "dist"
+    healthcheckPath = "/"
+    healthcheckTimeout = 100
+  
+  [services.frontend.environment]
+    VITE_API_URL = "https://taskforge-backend.up.railway.app/api"
+    VITE_USE_MOCK = "false"
