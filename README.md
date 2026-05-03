@@ -21,8 +21,8 @@ chmod +x start.sh && ./start.sh
 ```
 
 This will start both servers:
-- **Frontend**: http://localhost:8080
-- **Backend**: http://localhost:5001
+- **Frontend**: http://localhost:5173
+- **Backend**: http://localhost:5000
 
 ### Manual Setup
 
@@ -44,61 +44,56 @@ Run the frontend with mock data (no backend/MongoDB needed):
 
 ## 📦 Deployment
 
-### Deploy to Railway (Recommended)
+### Deploy to Railway (One-Click)
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/taskforge)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new)
 
 #### Manual Railway Deployment
 
-1. **Install Railway CLI**
+1. **Push to GitHub** (already done):
    ```bash
-   npm i -g @railway/cli
-   railway login
+   git push origin main
    ```
 
-2. **Initialize Project**
-   ```bash
-   cd breeze-project-hub-main
-   railway init
-   ```
-   - Select "Deploy a monorepo"
-   - Choose "Empty Project"
-   - Name: `taskforge`
+2. **Create Railway Project**
+   - Go to https://railway.app/dashboard
+   - Click **"New Project"** → **"Deploy from GitHub"**
+   - Select repository: `Ritikgautam23/taskforge`
+   - Railway auto-creates two services from `railway.toml`
 
-3. **Add MongoDB**
-   ```bash
-   railway add mongodb
-   ```
-   Railway will automatically connect it to the backend service.
+3. **Add MongoDB Plugin**
+   - Click **"New"** → **"Add Plugin"**
+   - Search **MongoDB** → **Add**
+   - Wait for provisioning
 
-4. **Configure Backend Variables**
-   In Railway dashboard → backend service → Variables:
+4. **Configure Backend Environment Variables**
+   In backend service → Settings → Variables:
    ```
-   JWT_SECRET = <generate: node -e "console.log(require('crypto').randomBytes(64).toString('hex'))">
-   NODE_ENV = production
-   FRONTEND_URL = https://your-frontend-service.up.railway.app
+   NODE_ENV     = production
+   JWT_SECRET   = <generate: node -e "console.log(require('crypto').randomBytes(64).toString('hex'))">
+   FRONTEND_URL = https://taskforge-frontend.up.railway.app
+   # MONGODB_URI auto-filled by plugin
    ```
 
-5. **Configure Frontend Variables**
-   In Railway dashboard → frontend service → Variables:
+5. **Configure Frontend Environment Variables**
+   In frontend service → Settings → Variables:
    ```
-   VITE_API_URL = https://your-backend-service.up.railway.app/api
+   VITE_API_URL  = https://taskforge-backend.up.railway.app/api
    VITE_USE_MOCK = false
    ```
 
 6. **Deploy**
-   ```bash
-   git add railway.toml
-   git commit -m "Add Railway config"
-   git push origin main
-   ```
+   - Click **"Deploy"** on each service
+   - Wait for build (~5-10 min)
 
 7. **Seed Database** (optional)
+   In backend console → run:
    ```bash
-   railway run --service backend npm run seed
+   npm run seed
    ```
+   Demo credentials: `alex@taskforge.dev` / `password123`
 
-See [DEPLOY.md](./DEPLOY.md) for complete deployment guide.
+See [RAILWAY_DEPLOY.md](./RAILWAY_DEPLOY.md) for detailed guide.
 
 ### Docker Deployment (Alternative)
 
@@ -123,13 +118,13 @@ docker run -p 3000:3000 taskforge-frontend
 
 ## 🔧 Development
 
-### Frontend (http://localhost:8080)
+### Frontend (http://localhost:5173)
 - React with TypeScript
 - Shadcn/ui component library
 - Tailwind CSS styling
 - React Query for API state management
 
-### Backend (http://localhost:5001)
+### Backend (http://localhost:5000)
 - Express.js API server
 - MongoDB database
 - JWT authentication
