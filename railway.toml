@@ -1,34 +1,25 @@
-# Railway monorepo configuration
-# Defines both backend and frontend services
+# TaskForge - Railway Deployment Configuration
+# This file configures both backend and frontend services for Railway's monorepo support
 
 [services.backend]
-  # Backend service configuration
-  [services.backend.build]
-    builder = "nixpacks"
-    buildCommand = "npm ci --only=production"
-  
-  [services.backend.deploy]
-    startCommand = "node src/server.js"
-    healthcheckPath = "/api/health"
-    healthcheckTimeout = 100
+  # Service: Backend API
+  # Location: /backend
+  startCommand = "node src/server.js"
+  healthcheckPath = "/api/health"
   
   [services.backend.environment]
     NODE_ENV = "production"
-    JWT_SECRET = "5eb17bf3"  # REPLACE WITH YOUR GENERATED SECRET
+    JWT_SECRET = "5eb17bf3"  # REPLACE WITH FULL SECRET
     FRONTEND_URL = "https://taskforge-frontend.up.railway.app"
-    # MONGODB_URI comes from MongoDB plugin automatically
+    # MONGODB_URI auto-injected by MongoDB plugin
 
 [services.frontend]
-  # Frontend service configuration
-  [services.frontend.build]
-    builder = "nixpacks"
-    buildCommand = "npm ci && npm run build"
-  
-  [services.frontend.deploy]
-    startCommand = "npx serve dist -p $PORT"
-    publishDirectory = "dist"
-    healthcheckPath = "/"
-    healthcheckTimeout = 100
+  # Service: Frontend (Vite static build)
+  # Location: / (project root)
+  buildCommand = "npm ci && npm run build"
+  startCommand = "npx serve dist -p $PORT"
+  publishDirectory = "dist"
+  healthcheckPath = "/"
   
   [services.frontend.environment]
     VITE_API_URL = "https://taskforge-backend.up.railway.app/api"
