@@ -1,0 +1,49 @@
+{
+  "projectId": "dcf84fc5-4072-4eab-8060-a66ecfe03b75",
+  "environmentId": "c07c4bc2-35c4-4682-8d03-aa065383f837",
+  "services": [
+    {
+      "name": "backend",
+      "type": "nodejs",
+      "rootDirectory": "backend",
+      "startCommand": "node src/server.js",
+      "healthcheckPath": "/api/health",
+      "environmentVariables": [
+        {
+          "key": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "key": "JWT_SECRET",
+          "value": "REPLACE_WITH_GENERATED_SECRET"
+        },
+        {
+          "key": "FRONTEND_URL",
+          "value": "REPLACE_WITH_FRONTEND_URL"
+        },
+        {
+          "key": "MONGODB_URI",
+          "value": "REPLACE_WITH_MONGODB_URI"
+        }
+      ]
+    },
+    {
+      "name": "frontend",
+      "type": "static",
+      "rootDirectory": ".",
+      "startCommand": "npx serve dist -p $PORT",
+      "buildCommand": "npm ci && npm run build",
+      "healthcheckPath": "/",
+      "environmentVariables": [
+        {
+          "key": "VITE_API_URL",
+          "value": "REPLACE_WITH_BACKEND_URL"
+        },
+        {
+          "key": "VITE_USE_MOCK",
+          "value": "false"
+        }
+      ]
+    }
+  ]
+}

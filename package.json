@@ -1,19 +1,16 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "taskforge-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "cd backend && set PORT=5001 && npm run dev",
-    "dev:frontend": "set VITE_API_URL=http://localhost:5001/api && set VITE_USE_MOCK=true && vite",
-    "setup": "npm install && cd backend && npm install",
-    "build": "tsc && vite build",
-    "build:dev": "vite build --mode development",
+    "dev": "set VITE_API_URL=http://localhost:5000/api && set VITE_USE_MOCK=true && vite",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "start": "npx serve dist -p $PORT"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -39,7 +36,6 @@
     "@radix-ui/react-scroll-area": "^1.2.9",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-separator": "^1.1.7",
-    "@radix-ui/react-slider": "^1.3.5",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-switch": "^1.2.5",
     "@radix-ui/react-tabs": "^1.1.12",
@@ -52,7 +48,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
-    "concurrently": "^9.2.1",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
@@ -94,9 +89,8 @@
     "vite": "^5.4.19",
     "vitest": "^3.2.4"
   },
-  "description": "TODO: Document your project here",
-  "main": "eslint.config.js",
-  "keywords": [],
+  "description": "Team task manager with Kanban, analytics, and collaboration",
+  "keywords": ["task-manager", "kanban", "react", "typescript"],
   "author": "",
   "license": "ISC"
 }

@@ -1,23 +1,21 @@
-# TaskForge - Railway Deployment Configuration
-# This file configures both backend and frontend services for Railway's monorepo support
+# Railway monorepo deployment configuration
+# This file configures both backend and frontend services
 
 [services.backend]
-  # Service: Backend API
-  # Location: /backend
-  startCommand = "node src/server.js"
+  # Backend API service
+  startCommand = "npm --prefix backend start"
   healthcheckPath = "/api/health"
   
   [services.backend.environment]
     NODE_ENV = "production"
-    JWT_SECRET = "5eb17bf3"  # REPLACE WITH FULL SECRET
+    JWT_SECRET = "5eb17bf3"  # CHANGE THIS TO YOUR GENERATED SECRET
     FRONTEND_URL = "https://taskforge-frontend.up.railway.app"
     # MONGODB_URI auto-injected by MongoDB plugin
 
 [services.frontend]
-  # Service: Frontend (Vite static build)
-  # Location: / (project root)
-  buildCommand = "npm ci && npm run build"
-  startCommand = "npx serve dist -p $PORT"
+  # Frontend static site
+  buildCommand = "npm run build"
+  startCommand = "npm start"
   publishDirectory = "dist"
   healthcheckPath = "/"
   
