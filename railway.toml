@@ -1,21 +1,23 @@
-# Railway monorepo deployment configuration
-# Both services deployed from a single GitHub repository
+# Railway monorepo configuration
+# Forces npm usage and configures both services
 
 [services.backend]
-  # Backend: Node.js Express API
-  # Location: backend/ directory
-  startCommand = "npm --prefix backend start"
+  # Backend API service located in /backend directory
+  root = "backend"
+  installCommand = "npm ci --only=production"
+  startCommand = "node src/server.js"
   healthcheckPath = "/api/health"
   
   [services.backend.environment]
     NODE_ENV = "production"
-    JWT_SECRET = "5eb17bf3"  # CHANGE THIS to your generated secret
+    JWT_SECRET = "b1fa290c7203398fdc568ebc13f93e8639ae7746f4b3c6eb0533be59c4429ab0199d505748b8c8d806f0636959756486a60d46f2094a6a7eb04f7250d13eafcb"
     FRONTEND_URL = "https://taskforge-frontend.up.railway.app"
-    # MONGODB_URI is auto-injected by Railway MongoDB plugin
+    # MONGODB_URI auto-injected by MongoDB plugin
 
 [services.frontend]
-  # Frontend: Static site (built with Vite)
-  # Location: project root
+  # Frontend static site (Vite build)
+  root = "."
+  installCommand = "npm ci"
   buildCommand = "npm run build"
   publishDirectory = "dist"
   healthcheckPath = "/"
