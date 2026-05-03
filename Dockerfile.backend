@@ -1,0 +1,17 @@
+# Backend Dockerfile
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY backend/package*.json ./
+RUN npm ci --only=production
+
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY backend/src ./src
+COPY backend/package.json ./backend/package.json
+
+# Railway sets PORT automatically
+ENV NODE_ENV=production
+EXPOSE 3000
+
+CMD ["node", "src/server.js"]

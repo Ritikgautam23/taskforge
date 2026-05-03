@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  TaskForge — Notion-style editorial design system.
+  All colors are HSL. Components must consume semantic tokens, never raw colors.
+*/
+
+@layer base {
+  :root {
+    /* Surfaces */
+    --background: 40 24% 98%;          /* warm off-white, like Notion */
+    --foreground: 222 18% 14%;         /* near-black ink */
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 18% 14%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 18% 14%;
+
+    /* Editorial ink palette */
+    --primary: 222 18% 14%;            /* ink on paper */
+    --primary-foreground: 40 24% 98%;
+
+    --secondary: 40 14% 94%;
+    --secondary-foreground: 222 18% 14%;
+
+    --muted: 40 14% 95%;
+    --muted-foreground: 222 10% 42%;
+
+    --accent: 24 92% 56%;              /* warm orange — single bold accent */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 152 56% 38%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 18% 14%;
+
+    --border: 30 12% 88%;
+    --input: 30 12% 88%;
+    --ring: 24 92% 56%;
+
+    --radius: 0.625rem;
+
+    /* Kanban column tints */
+    --status-todo: 220 14% 92%;
+    --status-todo-foreground: 222 18% 24%;
+    --status-progress: 38 92% 90%;
+    --status-progress-foreground: 28 70% 28%;
+    --status-done: 152 50% 88%;
+    --status-done-foreground: 152 56% 24%;
+
+    /* Elevation */
+    --shadow-sm: 0 1px 2px 0 hsl(222 18% 14% / 0.04);
+    --shadow-md: 0 4px 12px -2px hsl(222 18% 14% / 0.06), 0 2px 4px -2px hsl(222 18% 14% / 0.04);
+    --shadow-lg: 0 18px 40px -12px hsl(222 18% 14% / 0.12);
+
+    /* Sidebar */
+    --sidebar-background: 40 20% 96%;
+    --sidebar-foreground: 222 14% 24%;
+    --sidebar-primary: 222 18% 14%;
+    --sidebar-primary-foreground: 40 24% 98%;
+    --sidebar-accent: 40 16% 91%;
+    --sidebar-accent-foreground: 222 18% 14%;
+    --sidebar-border: 30 12% 86%;
+    --sidebar-ring: 24 92% 56%;
+  }
+
+  .dark {
+    --background: 222 18% 9%;
+    --foreground: 40 16% 94%;
+    --card: 222 18% 11%;
+    --card-foreground: 40 16% 94%;
+    --popover: 222 18% 11%;
+    --popover-foreground: 40 16% 94%;
+    --primary: 40 16% 94%;
+    --primary-foreground: 222 18% 9%;
+    --secondary: 222 14% 16%;
+    --secondary-foreground: 40 16% 94%;
+    --muted: 222 14% 16%;
+    --muted-foreground: 222 10% 62%;
+    --accent: 24 92% 56%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 152 56% 42%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 55%;
+    --warning-foreground: 222 18% 9%;
+    --border: 222 14% 20%;
+    --input: 222 14% 20%;
+    --ring: 24 92% 56%;
+    --status-todo: 222 14% 18%;
+    --status-todo-foreground: 40 16% 88%;
+    --status-progress: 28 50% 22%;
+    --status-progress-foreground: 38 92% 80%;
+    --status-done: 152 30% 20%;
+    --status-done-foreground: 152 50% 80%;
+    --sidebar-background: 222 18% 8%;
+    --sidebar-foreground: 40 14% 86%;
+    --sidebar-primary: 40 16% 94%;
+    --sidebar-primary-foreground: 222 18% 9%;
+    --sidebar-accent: 222 14% 14%;
+    --sidebar-accent-foreground: 40 16% 94%;
+    --sidebar-border: 222 14% 18%;
+    --sidebar-ring: 24 92% 56%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html, body, #root {
+    @apply h-full;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+   h1, h2, h3, h4 {
+     font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+     @apply tracking-tight;
+   }
+
+   .font-display {
+     font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+   }
+
+   @keyframes fade-in {
+     from { opacity: 0; transform: translateY(4px); }
+     to { opacity: 1; transform: translateY(0); }
+   }
+
+   .animate-fade-in {
+     animation: fade-in 0.4s ease-out;
+   }
+
+   /* Improve scrollbar */
+   ::-webkit-scrollbar {
+     width: 8px;
+     height: 8px;
+   }
+
+   ::-webkit-scrollbar-track {
+     background: transparent;
+   }
+
+   ::-webkit-scrollbar-thumb {
+     background: hsl(var(--muted-foreground) / 0.3);
+     border-radius: 4px;
+   }
+
+   ::-webkit-scrollbar-thumb:hover {
+     background: hsl(var(--muted-foreground) / 0.5);
+   }
+ }
